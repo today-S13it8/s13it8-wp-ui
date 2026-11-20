@@ -1,0 +1,3 @@
+{ "scope": "demo-app", "handle": "demo-app", "class": "Demo_UI", "filter": "demo_react_ui",
+  "dir": "DEMO_UI_DIR . 'assets/build/'", "url": "DEMO_UI_URL . 'assets/build/'",
+  "version": "'1.0.0'", "php": "includes/class-demo-ui.php", "css": "assets/build/app.css" }

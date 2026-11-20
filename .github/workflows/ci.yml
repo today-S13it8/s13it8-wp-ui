@@ -1,0 +1,56 @@
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.5"
+          tools: wp-cli
+
+      - name: Install, type-check, compile
+        run: |
+          npm ci
+          npm run typecheck
+          npm run build
+          git diff --exit-code dist || (echo "dist/ is out of date. Run npm run build and commit it." && exit 1)
+
+      - name: Build the fixture from the packed package
+        run: |
+          npm pack --pack-destination /tmp
+          cd test/fixture/ui
+          npm install --no-audit --no-fund /tmp/s13it8-wp-ui-*.tgz puppeteer-core@24
+          npm run build
+          cd ..
+          ui/node_modules/.bin/wp-ui php
+          php -l includes/class-demo-ui.php
+          ui/node_modules/.bin/wp-ui check-build
+
+      - name: Load the fixture in WordPress and check the page in Chrome
+        run: |
+          mkdir /tmp/site && cd /tmp/site
+          wp core download --quiet
+          git clone --quiet --depth 1 --branch v2.1.16 https://github.com/WordPress/sqlite-database-integration.git wp-content/plugins/sqlite-database-integration
+          cp wp-content/plugins/sqlite-database-integration/db.copy wp-content/db.php
+          sed -i "s#{SQLITE_IMPLEMENTATION_FOLDER_PATH}#$PWD/wp-content/plugins/sqlite-database-integration#; s#{SQLITE_PLUGIN}#sqlite-database-integration/load.php#" wp-content/db.php
+          wp config create --dbname=wp --dbuser=x --dbpass=x --skip-check
+          wp core install --url=http://127.0.0.1:8899 --title=Fixture --admin_user=a --admin_password=a --admin_email=a@example.com --skip-email
+          mkdir wp-content/plugins/wpui-demo
+          cp -r $GITHUB_WORKSPACE/test/fixture/{demo.php,includes,assets} wp-content/plugins/wpui-demo/
+          wp plugin activate wpui-demo
+          wp option update permalink_structure ''
+          ID=$(wp post create --post_type=page --post_status=publish --post_title="UI demo" --post_content="[wpui_demo]" --porcelain)
+          php -S 127.0.0.1:8899 -t /tmp/site >/tmp/server.log 2>&1 &
+          sleep 2
+          cd $GITHUB_WORKSPACE/test/fixture
+          ui/node_modules/.bin/wp-ui check-page "http://127.0.0.1:8899/?page_id=$ID" --chrome="$(which google-chrome)"
+          cp ../dialog-check.mjs ui/ && node ui/dialog-check.mjs "http://127.0.0.1:8899/?page_id=$ID"

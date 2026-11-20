@@ -1,0 +1,6 @@
+node_modules/
+test/fixture/ui/node_modules/
+test/fixture/ui/package-lock.json
+test/fixture/assets/
+test/fixture/includes/
+*.tgz

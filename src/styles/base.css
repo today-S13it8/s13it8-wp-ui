@@ -1,0 +1,93 @@
+/*
+ * The shared design system.
+ *
+ * Import this from a project's styles.css, then set the scope:
+ *
+ *   @import "@s13it8/wp-ui/styles/base.css";
+ *   @source "../node_modules/@s13it8/wp-ui/src";
+ *   @source "./";
+ *
+ * Tokens apply on their own: the build turns :root into the scope class,
+ * so every view and every popup container gets them. To change one for a
+ * project, set it on :root in the project's styles.css, after the import.
+ *
+ * Every rule here is fenced into the project's scope class at build time.
+ */
+@import "tailwindcss";
+@import "tw-animate-css";
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:is(.wp-ui-dark *));
+
+/*
+ * Tokens. Each reads the site's own theme.json colour first, so a site on
+ * WP Smith (or a child theme of it) gets its brand with no extra work.
+ * The second value is used on any other theme.
+ */
+:root {
+  --radius: 0.625rem;
+  --background: var(--wp--preset--color--surface, #ffffff);
+  --foreground: var(--wp--preset--color--text-primary, #0a0a0a);
+  --card: var(--wp--preset--color--surface, #ffffff);
+  --card-foreground: var(--wp--preset--color--text-primary, #0a0a0a);
+  --popover: var(--wp--preset--color--surface, #ffffff);
+  --popover-foreground: var(--wp--preset--color--text-primary, #0a0a0a);
+  --primary: var(--wp--preset--color--primary, #0a0a0a);
+  --primary-foreground: var(--wp--preset--color--white, #ffffff);
+  --secondary: var(--wp--preset--color--surface-alt, #f5f5f5);
+  --secondary-foreground: var(--wp--preset--color--text-primary, #0a0a0a);
+  --muted: var(--wp--preset--color--surface-alt, #f5f5f5);
+  --muted-foreground: var(--wp--preset--color--text-muted, #767676);
+  --accent: var(--wp--preset--color--surface-alt, #f5f5f5);
+  --accent-foreground: var(--wp--preset--color--text-primary, #0a0a0a);
+  --brand: var(--wp--preset--color--accent, #e84a2f);
+  --brand-hover: var(--wp--preset--color--accent-hover, #c73e27);
+  --destructive: #b42318;
+  --border: var(--wp--preset--color--border, #e0e0e0);
+  --input: var(--wp--preset--color--border, #e0e0e0);
+  --ring: var(--wp--preset--color--accent, #e84a2f);
+}
+
+@theme {
+  --font-sans: var(--wp--preset--font-family--sans, ui-sans-serif, system-ui, sans-serif);
+  --font-serif: var(--wp--preset--font-family--serif, Georgia, "Times New Roman", serif);
+  --font-mono: var(--wp--preset--font-family--mono, ui-monospace, monospace);
+}
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-brand: var(--brand);
+  --color-brand-hover: var(--brand-hover);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+}
+
+/* Long text at the site's text size, not Typography's 1rem. */
+.prose {
+  font-size: inherit;
+}

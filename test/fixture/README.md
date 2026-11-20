@@ -1,0 +1,1 @@
+A tiny plugin that uses the package the way a real project does. CI packs the package, installs it here, builds, runs the checks, then loads the plugin in WordPress and runs the page checks in Chrome.
