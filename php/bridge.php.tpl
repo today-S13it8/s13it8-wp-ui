@@ -17,6 +17,8 @@
  *     filtered data as $html, so the JSON never holds more than the page.
  *
  * Turn React off with add_filter( '{{FILTER}}', '__return_false' ).
+ *
+ * @package {{CLASS}}
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -25,6 +27,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( ! class_exists( '{{CLASS}}' ) ) {
 
+	/**
+	 * Prints React mount points and loads the built bundle.
+	 */
 	final class {{CLASS}} {
 
 		/** The view root's class. Must match the build's scope. */
@@ -33,8 +38,18 @@ if ( ! class_exists( '{{CLASS}}' ) ) {
 		/** Script and style handle. */
 		public const HANDLE = '{{HANDLE}}';
 
+		/**
+		 * Mount points printed on this page, for unique data IDs.
+		 *
+		 * @var int
+		 */
 		private static int $count = 0;
 
+		/**
+		 * Whether the module-tag filter is added.
+		 *
+		 * @var bool
+		 */
 		private static bool $hooked = false;
 
 		/** Folder of the built files, with a trailing slash. */
@@ -107,6 +122,10 @@ if ( ! class_exists( '{{CLASS}}' ) ) {
 
 		/**
 		 * Mark the bundle as a module. Its chunks load with it, by import.
+		 *
+		 * @param string $tag    The script tag WordPress built.
+		 * @param string $handle The script's handle.
+		 * @return string
 		 */
 		public static function module_tag( string $tag, string $handle ): string {
 			if ( self::HANDLE !== $handle || false !== strpos( $tag, 'type="module"' ) ) {

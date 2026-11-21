@@ -35,6 +35,14 @@ jobs:
           php -l includes/class-demo-ui.php
           ui/node_modules/.bin/wp-ui check-build
 
+      - name: The generated bridge meets WordPress coding standards
+        run: |
+          mkdir "$RUNNER_TEMP/cs" && cd "$RUNNER_TEMP/cs"
+          composer init --no-interaction --name=check/cs --quiet
+          composer config allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
+          composer require --dev --no-interaction --quiet wp-coding-standards/wpcs dealerdirect/phpcodesniffer-composer-installer
+          vendor/bin/phpcs --standard=WordPress --exclude=WordPress.Files.FileName "$GITHUB_WORKSPACE/test/fixture/includes/class-demo-ui.php"
+
       - name: Load the fixture in WordPress and check the page in Chrome
         run: |
           mkdir /tmp/site && cd /tmp/site
