@@ -27,6 +27,10 @@ export function portalContainer(): HTMLElement | undefined {
   if (!host || !host.isConnected) {
     host = document.createElement("div")
     host.className = `${scope} ${scope}--portal`
+    // Above theme chrome: sticky headers, cookie banners, and the admin
+    // bar (99999). The popups inside keep their own order.
+    host.style.position = "relative"
+    host.style.zIndex = "100000"
     document.body.appendChild(host)
   }
   return host
