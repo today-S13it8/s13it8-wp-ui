@@ -91,3 +91,12 @@
 .prose {
   font-size: inherit;
 }
+
+/*
+ * Some themes (WP Smith among them) hide lazy images and fade each one in
+ * from a script that runs once, on page load. Images a view draws later
+ * never get that class and stay invisible. Views show their images.
+ */
+img[loading="lazy"] {
+  opacity: 1;
+}
