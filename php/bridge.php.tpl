@@ -107,7 +107,7 @@ if ( ! class_exists( '{{CLASS}}' ) ) {
 			$url = self::url();
 
 			// The file time, so a rebuilt bundle is never served from a stale cache.
-			$version = static fn( string $file ): string => {{VERSION}} . '.' . ( is_file( $dir . $file ) ? (string) filemtime( $dir . $file ) : '0' );
+			$version = static fn( string $file ): string => sprintf( '%s.%s', {{VERSION}}, is_file( $dir . $file ) ? (string) filemtime( $dir . $file ) : '0' );
 
 			if ( is_file( $dir . 'app.css' ) ) {
 				wp_enqueue_style( self::HANDLE, $url . 'app.css', array(), $version( 'app.css' ) );
