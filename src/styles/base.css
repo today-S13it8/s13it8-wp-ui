@@ -33,11 +33,15 @@
   --card-foreground: var(--wp--preset--color--text-primary, #0a0a0a);
   --popover: var(--wp--preset--color--surface, #ffffff);
   --popover-foreground: var(--wp--preset--color--text-primary, #0a0a0a);
-  --primary: var(--wp--preset--color--primary, #0a0a0a);
-  /* Text on primary is the page colour, the opposite of primary in light
-     and dark mode alike. "white" would vanish when dark mode makes
-     primary light. */
-  --primary-foreground: var(--wp--preset--color--surface, #ffffff);
+  /*
+   * The action colour. A theme can set it in theme.json:
+   *   "settings": { "custom": { "ui": { "primary": "…", "onPrimary": "…" } } }
+   * Otherwise it is the palette's primary, with the page colour as its
+   * text: the opposite of primary in light and dark mode alike. ("white"
+   * would vanish when a dark mode makes primary light.)
+   */
+  --primary: var(--wp--custom--ui--primary, var(--wp--preset--color--primary, #0a0a0a));
+  --primary-foreground: var(--wp--custom--ui--on-primary, var(--wp--preset--color--surface, #ffffff));
   --secondary: var(--wp--preset--color--surface-alt, #f5f5f5);
   --secondary-foreground: var(--wp--preset--color--text-primary, #0a0a0a);
   --muted: var(--wp--preset--color--surface-alt, #f5f5f5);

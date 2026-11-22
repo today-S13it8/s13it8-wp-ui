@@ -25,6 +25,7 @@ const palettes = {
   "WP Smith light": { primary: "#0A0A0A", surface: "#FFFFFF", white: "#FFFFFF" },
   "Family Roots": { primary: "#2B2118", surface: "#F8F3EA", white: "#FFFFFF" },
   "WP Smith dark": { primary: "#f5f5f5", surface: "#111111", white: "#ffffff" },
+  "Midnight Cinema, with theme ui colours": { primary: "#090A0F", surface: "#0D0F17", white: "#FFFFFF", ui: "#E11D48", onUi: "#FFFFFF" },
 }
 // Buttons animate colour changes. Measure the end state, not the start.
 await page.addStyleTag({ content: "*, *::before, *::after { transition: none !important; }" })
@@ -34,6 +35,10 @@ for (const [name, p] of Object.entries(palettes)) {
     root.setProperty("--wp--preset--color--primary", p.primary)
     root.setProperty("--wp--preset--color--surface", p.surface)
     root.setProperty("--wp--preset--color--white", p.white)
+    if (p.ui) {
+      root.setProperty("--wp--custom--ui--primary", p.ui)
+      root.setProperty("--wp--custom--ui--on-primary", p.onUi)
+    }
     const button = document.querySelector(".demo-app .demo-app__root button")
     const cs = getComputedStyle(button)
     const rgb = (c) => c.match(/[\d.]+/g).slice(0, 3).map(Number)
