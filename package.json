@@ -1,6 +1,6 @@
 {
   "name": "@s13it8/wp-ui",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Shared React design system for the WP Smith theme and plugins: Tailwind CSS, shadcn/ui, clsx + tailwind-merge + cva, Lucide, Typography, the PHP-to-React bridge, and the checks.",
   "type": "module",
   "license": "GPL-2.0-or-later",

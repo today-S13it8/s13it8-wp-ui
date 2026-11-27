@@ -130,4 +130,6 @@ npx wp-ui check-page <address> [--chrome=path]
 
 - `main.tsx` holds only the styles import and `startViews`. WordPress adds `?ver=` to `app.js`. A chunk that imports it would load React twice. `check-build` catches this.
 - Popups (dialogs, menus, tooltips) render into a scoped container, so they keep their styles outside the island.
+- Lazy images inside a view stay visible, even on themes that hide them until their own fade-in script runs.
 - Colours come from the theme's presets: primary, accent, surface, text-primary, border, and the rest. A child theme's palette changes every island. To change a token for one project, set it on `:root` in its `styles.css` after the import. The build moves `:root` onto the scope class.
+- A theme picks the views' action colour in `theme.json`, under `settings.custom.ui`: `primary` for buttons and `onPrimary` for their text. Without it, buttons use the palette's `primary`, with the page `surface` colour as text.
